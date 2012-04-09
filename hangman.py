@@ -82,8 +82,7 @@ def getGuess(already_guessed):
 	"""Returns the letter the player entered.
 	Makes sure the player entered a single letter and not something else."""
 	while True:
-		guess = raw_input('Guess a letter: ')
-		guess = guess.lower()
+		guess = raw_input('Guess a letter: ').lower()
 		if len(guess) != 1:
 			print 'Please enter a single letter.',
 		elif guess in already_guessed:
