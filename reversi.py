@@ -248,7 +248,7 @@ def getComputerMove(board, computer_tile):
     #Go through all the possible moves and remember the best scoring move
     best_score = -1
     for x, y in possible_moves:
-        dupe_board= getBoardCopy(board)
+        dupe_board = getBoardCopy(board)
         makeMove(dupe_board, computer_tile, x, y)
         score = getScoreOfBoard(dupe_board)[computer_tile]
         if score > best_score:
