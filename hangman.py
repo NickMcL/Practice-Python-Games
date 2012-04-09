@@ -1,5 +1,5 @@
 import random
-import inspect, os
+import os
 HANGMANPICS = ['''
   +---+
   |   |
