@@ -16,9 +16,6 @@ DOWN_RIGHT = 3
 UP_LEFT = 7
 UP_RIGHT = 9
 
-OPPOSITES = {DOWN_LEFT:UP_LEFT, DOWN_RIGHT:UP_RIGHT, UP_LEFT:DOWN_LEFT,
-             UP_RIGHT:DOWN_RIGHT}
-
 MOVE_SPEED = 4
 
 BLACK = (0, 0, 0)
@@ -69,4 +66,18 @@ while True:
                 b['dir'] = UP_RIGHT
         if b['rect'].left < 0:
             if b['dir'] == DOWN_LEFT:
+                b['dir'] = DOWN_RIGHT
+            if b['dir'] == UP_LEFT:
+                b['dir'] = UP_RIGHT
+        if b['rect'].right > WINDOW_WIDTH:
+            if b['dir'] == DOWN_RIGHT:
+                b['dir'] = DOWN_LEFT
+            if b['dir'] == UP_RIGHT:
                 b['dir'] = UP_LEFT
+
+        #Draw the block onto the surface
+        pygame.draw.rect(window_surface, b['color'], b['rect'])
+
+    #Draw the window onto the screen
+    pygame.display.update()
+    time.sleep(0.02)
