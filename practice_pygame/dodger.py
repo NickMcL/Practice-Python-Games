@@ -71,3 +71,113 @@ drawText('Press a key to start.', font, window_surface, (WINDOW_WIDTH / 2),
          (WINDOW_HEIGHT / 3) + 50)
 pygame.display.update()
 waitForPlayerToPressKey()
+
+#Game loop
+top_score = 0
+while True:
+    #Initialization
+    baddies = []
+    score = 0
+    player_rect.topleft = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 50)
+    move_left = move_right = move_up = move_down = False
+    reverse_cheat = slow_cheat = False
+    baddie_add_counter = 0
+    pygame.mixer.music.play(-1, 0, 0)
+
+    while True:
+        score += 1
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+
+            if event.type == KEYDOWN:
+                if event.key == ord('z'):
+                    reverse_cheat = True
+                if event.key == ord('x'):
+                    slow_cheat = True
+                if event.key == K_LEFT or event.key == ord('a'):
+                    move_right = False
+                    move_left = True
+                if event.key == K_RIGHT or event.key == ord('d'):
+                    move_left = False
+                    move_right = True
+                if event.key == K_UP or event.key == ord('w'):
+                    move_donw = False
+                    move_up = True
+                if event.key == K_DOWN or event.key == ord('s'):
+                    move_up = False
+                    move_down = True
+
+                if event.type == KEYUP:
+                    if event.key == ord('z'):
+                        reverse_cheat = False
+                    if event.key == ord('x'):
+                        slow_cheat = False
+                    if event.key == K_ESCAPE:
+                        terminate()
+                    if event.key == K_LEFT or event.key == ord('a'):
+                        move_left = False
+                    if event.key == K_RIGHT or event.key == ord('d'):
+                        move_right = False
+                    if event.key == K_UP or event.key == ord('w'):
+                        move_up = False
+                    if event.key == K_DOWN or event.key == ord('s'):
+                        move_down = False
+
+                if event.type = MOUSEMOTION:
+                    player_rect.move_ip(event.pos[0] - player_rect.centerx,
+                                        event.pos[1] - player_rect.centery)
+
+            #Add baddies at the top of the screen
+            if not reverse_cheat and not slow_cheat:
+                baddies_add_counter += 1
+            if baddies_add_counter = ADD_NEW_BADDIE_RATE:
+                baddie_add_counter = 0
+                baddie_size = random.randint(BADDIE_MIN_SIZE, BADDIE_MAX_SIZE)
+                new_baddie = {'rect': pygame.Rect(random.randint
+                                                  (0, WINDOW_WIDTH-baddie_size),
+                                                  0 - baddie_size, baddie_size,
+                                                  baddie_size),
+                              'speed': random.randint(BADDIE_MIN_SPEED,
+                                                      BADDIE_MAX_SPEED),
+                              'surface': pygame.transform.scale(baddie_image,
+                                                                (baddie_size,
+                                                                 baddie_size)),
+                             }
+
+                baddies.append(new_baddie)
+
+            #Move player
+            if move_left and player_rect.left > 0:
+                player_rect.move_ip(-1 * PLAYER_MOVE_RATE, 0)
+            if move_right and player_rect.right < WINDOW_WIDTH:
+                player_rect.move_ip(PLAYER_MOVE_RATE, 0)
+            if move_up and player_rect.top > 0:
+                player_rect.move_ip(0, -1 * PLAYER_MOVE_RATE)
+            if move_down and player_rect < WINDOW_HEIGHT:
+                player_rect.move_ip(0, PLAYER_MOVE_RATE)
+
+            #Move the mouse cursor to match the player.
+            pygame.mouse.set_pos(player_rect.centerx, player_rect.centery)
+
+            #Move the baddies down
+            for b in baddies:
+                if not reverse_cheat and not slow_cheat:
+                    b['rect'].move_ip(0, b['speed'])
+                elif reverse_cheat:
+                    b['rect'].move_ip(0, -5)
+                elif slow_cheat:
+                    b['rect'] .move_ip(0, 1)
+
+            #Delete baddies that have fallen past the bottom
+            for b in baddies[:]:
+                if b['rect'].top > WINDOW_HEIGHT:
+                    baddies.remove(b)
+
+            window_surface.fill(BACKGROUND_COLOR)
+
+            #Draw the score and top score
+            drawText('Score: %s' % (score), font, window_surface, 10, 0)
+            drawText('Top Score: %s' % (top_score), font, window_surface, 10,
+                     40)
