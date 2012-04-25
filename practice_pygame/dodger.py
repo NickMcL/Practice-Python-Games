@@ -4,8 +4,8 @@ import sys
 from pygame.locals import *
 
 #Constants
-WINDOW_WIDTH = 600
-WINDOW_HEIGHT = 600
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
 TEXT_COLOR = (255, 255, 255)
 BACKGROUND_COLOR = (0, 0, 0)
 FPS = 40
@@ -52,7 +52,8 @@ def drawText(text, font, surface, x, y, ref_point):
 #Basic setup
 pygame.init()
 main_clock = pygame.time.Clock()
-window_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+window_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT),
+                                         pygame.FULLSCREEN)
 pygame.display.set_caption('Dodger')
 pygame.mouse.set_visible(False)
 
