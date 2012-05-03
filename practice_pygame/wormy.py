@@ -1,4 +1,4 @@
-#Wormy (made with guidance from Invent with Python
+#Wormy (made with guidance from Invent with Python)
 
 import pygame
 import random
@@ -42,6 +42,7 @@ def main():
                                            pygame.FULLSCREEN)
     BASIC_FONT = pygame.font.SysFont(None, 18)
     pygame.display.set_caption('Wormy')
+    pygame.mouse.set_visible(False)
 
     showStartScreen()
     while True:
