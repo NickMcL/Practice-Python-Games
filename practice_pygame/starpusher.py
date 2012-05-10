@@ -1,4 +1,4 @@
-#Star Pusher (made with guidance from Invent with Python
+#Star Pusher (made with guidance from Invent with Python)
 
 import random
 import sys
